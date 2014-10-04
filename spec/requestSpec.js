@@ -76,4 +76,15 @@ describe('Request', function () {
     });
   });
 
+  describe('#onload', function () {
+    it ('should registered an onload callback for the request', function () {
+      this.instance = new Request();
+      this.instance.onload(function SomeCallBack() {
+        // some code
+      });
+      expect(this.instance.registered).toBeDefined();
+      expect(this.instance.registered.name).toBe('SomeCallBack');
+    });
+  });
+
 });
