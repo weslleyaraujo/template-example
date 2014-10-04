@@ -1,0 +1,20 @@
+{
+  "name": "template-test",
+  "version": "0.0.0",
+  "description": "Usage example from John Resig template engine",
+  "main": "app.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "keywords": [
+    "template",
+    "vanilla",
+    "js"
+  ],
+  "author": "Weslley Araujo <weslleyaraujo20@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jasmine": "^0.8.0"
+  }
+}
