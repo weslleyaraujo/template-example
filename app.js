@@ -1,6 +1,8 @@
-(function (root, Request) {
+(function (root, Request, tmpl) {
   var defaults = {
-    el: '#users'
+    el: '#users',
+    template: '#user-template',
+    url: 'http://www.filltext.com/?rows=10&fname={firstName}&lname={lastName}&pretty=true',
   };
 
   App.methods = {};
@@ -26,11 +28,14 @@
   };
 
   App.prototype.prepare = function () {
-    this.request = new Request();
+    this.request = new Request({
+      url: this.options.url
+    });
 
     // get dom elements
     this.elements = {};
     this.el = document.querySelector(this.options.el);
+    this.template = tmpl(document.querySelector(this.options.template).innerHTML);
   };
 
   App.prototype.bind = function () {
@@ -45,9 +50,11 @@
     this.el.innerHTML = '';
 
     // render data
-    debugger
+    data.forEach(function (user) {
+      this.el.innerHTML += this.template(user);
+    }.bind(this));
   };
 
   root.App = new App();
 
-}(window, Request));
+}(window, Request, tmpl));

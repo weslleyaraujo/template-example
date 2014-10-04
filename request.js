@@ -1,6 +1,5 @@
 (function (root) {
   var defaults = {
-    url: 'http://www.filltext.com/?rows=10&fname={firstName}&lname={lastName}&pretty=true',
     method: 'GET',
     isAsync: true
   };
