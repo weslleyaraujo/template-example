@@ -26,6 +26,7 @@ module.exports = function (grunt) {
         specs: 'spec/*.js',
         vendor: [
           'vendor/template.js',
+          'vendor/helpers.js',
           'node_modules/jasmine-ajax/lib/mock-ajax.js'
         ]
       }
