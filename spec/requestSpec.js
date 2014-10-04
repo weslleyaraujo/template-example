@@ -77,14 +77,68 @@ describe('Request', function () {
   });
 
   describe('#onload', function () {
+    beforeEach(function () {
+      this.instance = new Request({
+        url: '/some/url'
+      });
+      jasmine.Ajax.install();
+    });
+
+    afterEach(function () {
+      jasmine.Ajax.install();
+      delete this.instance;
+    });
+
     it ('should registered an onload callback for the request', function () {
-      this.instance = new Request();
       this.instance.onload(function SomeCallBack() {
         // some code
       });
       expect(this.instance.registered).toBeDefined();
       expect(this.instance.registered.name).toBe('SomeCallBack');
     });
+
+    it ('should request via GET the setted url', function () {
+      var request;
+
+      this.instance.get();
+      request = jasmine.Ajax.requests.mostRecent();
+
+      expect(request.method).toBe('GET');
+      expect(request.url).toBe('/some/url');
+    });
+
+    it ('should request via POST', function () {
+      var request;
+
+      this.instance = new Request({
+        url: '/some/url',
+        method: 'POST'
+      });
+
+      this.instance.get();
+      request = jasmine.Ajax.requests.mostRecent();
+
+      expect(request.method).toBe('POST');
+    });
+
+    it ('should execute the callback onload', function () {
+      var someCallback;
+
+      jasmine.Ajax.stubRequest('/some/url').andReturn({
+        'status': 200
+      });
+
+      this.instance.onload(function SomeCallBack() {
+        // some code
+      });
+
+      someCallback = spyOn(this.instance, 'registered');
+
+      this.instance.get();
+
+      expect(someCallback).toHaveBeenCalled();
+    });
+
   });
 
 });
