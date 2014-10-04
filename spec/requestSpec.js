@@ -4,8 +4,8 @@ describe('Request', function () {
       it ('should be the defaults options', function () {
         this.instance = new Request();
         expect(this.instance.options.method).toBe('GET');
-        expect(this.instance.options.isAsync).toBeTruthy()
-        expect(this.instance.options.url).toBe('')
+        expect(this.instance.options.isAsync).toBeTruthy();
+        expect(this.instance.options.url).toBe('');
       });
     });
     describe('when args are set', function () {

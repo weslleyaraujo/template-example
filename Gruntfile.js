@@ -26,9 +26,31 @@ module.exports = function (grunt) {
       options: {
         specs: 'spec/*.js',
         vendor: [
-          'lib/template.js'
+          'vendor/template.js'
         ]
       }
+    },
+
+    watch: {
+      js: {
+        files: [
+          'lib/*.js',
+          'lib/**/*.js',
+          'spec/*.js',
+        ],
+        tasks: [
+          'jshint',
+          'jasmine',
+          'connect'
+        ]
+      }
+    },
+    jshint: {
+      all: [
+        'Gruntfile.js',
+        'lib/*.js',
+        'spec/*.js'
+      ]
     }
   });
 
@@ -38,7 +60,9 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('develop', [
-    'connect'
+    'jshint',
+    'jasmine',
+    'watch'
   ]);
 
 };
