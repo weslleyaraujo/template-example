@@ -11,8 +11,7 @@ module.exports = function (grunt) {
       server: {
         options: {
           port: 9001,
-          base: '.',
-          keepalive: true
+          base: '.'
         }
       }
     },
@@ -35,13 +34,11 @@ module.exports = function (grunt) {
       js: {
         files: [
           'lib/*.js',
-          'lib/**/*.js',
           'spec/*.js',
         ],
         tasks: [
           'jshint',
-          'jasmine',
-          'connect'
+          'jasmine'
         ]
       }
     },
@@ -62,7 +59,8 @@ module.exports = function (grunt) {
   grunt.registerTask('develop', [
     'jshint',
     'jasmine',
-    'watch'
+    'connect',
+    'watch',
   ]);
 
 };
