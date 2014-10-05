@@ -1,19 +1,40 @@
 describe('App', function () {
+  beforeEach(function () {
+    var body = document.querySelector('body'),
+      el = document.createElement('div'),
+      template = document.createElement('div');
+      
+    el.id = 'users';
+    template.id = 'user-template';
+    template.innerHTML = 'some example';
+
+    body.appendChild(el);
+    body.appendChild(template);
+  });
+
+  describe('#methods', function () {
+    describe('#parse', function () {
+      it('should parse the data from the object', function () {
+        var data = {
+          currentTarget: {
+            response: '{}'
+          }
+        };
+
+        expect(Object.prototype.toString.call(App.methods.parse(data))).toBe('[object Object]');
+      });
+
+      it('should throw an error', function () {
+        var data = '';
+        expect(function () {
+          App.methods.parse(data);
+        }).toThrow(new Error('Only request data are allowed to parse.'));
+      });
+    });
+  });
+
   describe('#initialize', function () {
     describe('arguments', function () {
-      beforeEach(function () {
-        var body = document.querySelector('body'),
-          el = document.createElement('div'),
-          template = document.createElement('div');
-          
-        el.id = 'users';
-        template.id = 'user-template';
-        template.innerHTML = 'some example';
-
-        body.appendChild(el);
-        body.appendChild(template);
-
-      });
 
       describe('when args are not set', function () {
         it('should be the defaults options', function () {
@@ -42,46 +63,70 @@ describe('App', function () {
           expect(this.instance.options.url).toBe('/some/url');
         });
       });
-
-      describe('prepare and binders', function () {
-        it('should call prepare and bind methods', function () {
-          var prepare = spyOn(App.prototype, 'prepare'),
-            bind = spyOn(App.prototype, 'bind');
-
-          this.instance = new App();
-
-          expect(prepare).toHaveBeenCalled();
-          expect(bind).toHaveBeenCalled();
-        });
-      });
-
     });
 
-    describe('#start', function () {
-      it('should call method get from request', function () {
-        var get;
+    describe('prepare and binders', function () {
+      it('should call prepare and bind methods', function () {
+        var prepare = spyOn(App.prototype, 'prepare'),
+          bind = spyOn(App.prototype, 'bind');
 
         this.instance = new App();
-        get = spyOn(this.instance.request, 'get');
 
-        this.instance.start();
-
-        expect(get).toHaveBeenCalled();
+        expect(prepare).toHaveBeenCalled();
+        expect(bind).toHaveBeenCalled();
       });
-
     });
 
-    describe('#prepare', function () {
+  });
 
-      it('should set the request instance, the DOM elements and register the template function', function () {
-        // instance
-        this.instance = new App();
+  describe('#start', function () {
+    it('should call method get from request', function () {
+      var get;
 
-        expect(this.instance.request).toBeDefined();
-        expect(this.instance.elements.el).toBeDefined();
-        expect(this.instance.template).toBeDefined();
-      });
+      this.instance = new App();
+      get = spyOn(this.instance.request, 'get');
 
+      this.instance.start();
+
+      expect(get).toHaveBeenCalled();
+    });
+  });
+
+  describe('#prepare', function () {
+
+    it('should set the request instance, the DOM elements and register the template function', function () {
+      // instance
+      this.instance = new App();
+
+      expect(this.instance.request).toBeDefined();
+      expect(this.instance.elements.el).toBeDefined();
+      expect(this.instance.template).toBeDefined();
+    });
+  });
+
+  describe('#bind', function () {
+    it('should registered the onload method into the request instance', function () {
+      // instance
+      this.instance = new App();
+      expect(this.instance.request.registered).toBeDefined();
+    });
+  });
+
+  describe('#render', function () {
+    it('should parse the request data and fill the el with the template', function () {
+      var data = {
+        currentTarget: {
+          response: '[ { "fname": "Shauntell", "lname": "Leite" }, { "fname": "Donald", "lname": "User" } ]'
+        }
+      };
+      
+      var parse = spyOn(App.methods, 'parse');
+
+      // instance
+      this.instance = new App();
+      this.instance.render(data);
+
+      expect(parse).toHaveBeenCalled();
     });
   });
 

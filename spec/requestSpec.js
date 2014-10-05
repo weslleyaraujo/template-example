@@ -2,7 +2,7 @@ describe('Request', function () {
   describe('#initialize', function () {
     describe('arguments', function () {
       describe('when args are not set', function () {
-        it ('should be the defaults options', function () {
+        it('should be the defaults options', function () {
           this.instance = new Request();
           expect(this.instance.options.method).toBe('GET');
           expect(this.instance.options.isAsync).toBeTruthy();
@@ -11,7 +11,7 @@ describe('Request', function () {
       });
 
       describe('when args are set', function () {
-        it ('should be the setted options', function () {
+        it('should be the setted options', function () {
           this.instance = new Request({
             method: 'POST',
             isAsync: false,
@@ -27,7 +27,7 @@ describe('Request', function () {
     });
 
     describe('prepare and binders', function () {
-      it ('should call prepare and bind methods', function () {
+      it('should call prepare and bind methods', function () {
         var prepare = spyOn(Request.prototype, 'prepare'),
           bind = spyOn(Request.prototype, 'bind');
 
@@ -41,7 +41,7 @@ describe('Request', function () {
   });
 
   describe('#prepare', function () {
-    it ('should be a instance of XMLHttpRequest', function () {
+    it('should be a instance of XMLHttpRequest', function () {
       this.instance = new Request();
       this.instance.prepare();
       expect(this.instance.request).toEqual(jasmine.any(XMLHttpRequest));
@@ -49,7 +49,7 @@ describe('Request', function () {
   });
 
   describe('#bind', function () {
-    it ('should bind a load event into the request instance', function () {
+    it('should bind a load event into the request instance', function () {
       this.instance = new Request();
       this.instance.bind();
 
@@ -58,7 +58,7 @@ describe('Request', function () {
   });
 
   describe('#get', function () {
-    it ('should open and send a request', function () {
+    it('should open and send a request', function () {
       this.instance = new Request({
         method: 'GET',
         isAsync: true,
@@ -89,7 +89,7 @@ describe('Request', function () {
       delete this.instance;
     });
 
-    it ('should registered an onload callback for the request', function () {
+    it('should registered an onload callback for the request', function () {
       this.instance.onload(function SomeCallBack() {
         // some code
       });
@@ -97,7 +97,7 @@ describe('Request', function () {
       expect(this.instance.registered.name).toBe('SomeCallBack');
     });
 
-    it ('should request via GET the setted url', function () {
+    it('should request via GET the setted url', function () {
       var request;
 
       this.instance.get();
@@ -107,7 +107,7 @@ describe('Request', function () {
       expect(request.url).toBe('/some/url');
     });
 
-    it ('should request via POST', function () {
+    it('should request via POST', function () {
       var request;
 
       this.instance = new Request({
@@ -121,7 +121,7 @@ describe('Request', function () {
       expect(request.method).toBe('POST');
     });
 
-    it ('should execute the callback onload', function () {
+    it('should execute the callback onload', function () {
       var someCallback;
 
       jasmine.Ajax.stubRequest('/some/url').andReturn({
