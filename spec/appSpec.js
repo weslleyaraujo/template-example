@@ -113,20 +113,18 @@ describe('App', function () {
   });
 
   describe('#render', function () {
-    it('should parse the request data and fill the el with the template', function () {
-      var data = {
+    it('should parse the request data and render into view', function () {
+      var request = { 
         currentTarget: {
-          response: '[ { "fname": "Shauntell", "lname": "Leite" }, { "fname": "Donald", "lname": "User" } ]'
-        }
+          response: '[{"fname": "Weslley", "lname": "Araujo" }]'
+        }   
       };
-      
-      var parse = spyOn(App.methods, 'parse');
 
       // instance
       this.instance = new App();
-      this.instance.render(data);
+      this.instance.render(request);
 
-      expect(parse).toHaveBeenCalled();
+      expect(this.instance.elements.el.innerHTML).toBe('some example');
     });
   });
 
